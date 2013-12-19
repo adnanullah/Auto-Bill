@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import time
 import subprocess
 from ConfigParser import SafeConfigParser
@@ -8,10 +9,10 @@ from watchdog.events import FileSystemEventHandler
 
 class NewBillEventHandler(FileSystemEventHandler):
 
-	def __init__(self, config):
+	def __init__(self, config, script_path='.'):
 		super(NewBillEventHandler, self).__init__()
 		self.__config = config
-		self.__script = self.__config.get('options', 'file-script')
+		self.__script = os.path.abspath(os.path.join(script_path, self.__config.get('options', 'file-script')))
 		self.__ext = self.__config.get('options', 'file-extension')
 
 	def on_created(self, event):
@@ -23,9 +24,10 @@ class NewBillEventHandler(FileSystemEventHandler):
 
 if __name__ == '__main__':
 	config = SafeConfigParser({'file-path': '.'})
-	config.read('auto_bill.cfg')
+	script_path = os.path.dirname(__file__)
+    config.read(os.path.abspath((os.path.join(script_path, 'auto_bill.cfg')))
 	path = config.get('options', 'file-path')
-	handler = NewBillEventHandler(config)
+	handler = NewBillEventHandler(config, script_path)
 	observer = Observer()
 	observer.schedule(handler, path=path)
 	observer.start()

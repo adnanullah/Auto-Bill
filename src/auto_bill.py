@@ -8,8 +8,9 @@ from selenium import webdriver
 
 class AutoBill(object):
 
-    def __init__(self, config):
+    def __init__(self, config, script_path='.'):
         self.__config = config
+        self.__script_path = script_path
         self.__username = self.__config.get('credentials', 'username')
         self.__password = self.__config.get('credentials', 'password')
         self.__sign_in_url = self.__config.get('uris', 'sign-in')
@@ -49,12 +50,13 @@ class AutoBill(object):
         postfix = self.__config.get('options', 'file-postfix')
         ext = self.__config.get('options', 'file-extension')
         date = now.strftime('%Y-%m')
-        output_filename = '%s%s%s%s%s' % (path, os.sep, date, postfix, ext)
+        output_filename = os.path.abspath(os.path.join(self.__script_path, path, '%s%s%s' % (date, postfix, ext)))
         with open(output_filename, 'wb') as pdf:
             pdf.write(r.content)
 
 
 if __name__ == '__main__':
     config = SafeConfigParser({'file-path': '.'})
-    config.read('auto_bill.cfg')
-    AutoBill(config).download()
+    script_path = os.path.dirname(__file__)
+    config.read(os.path.abspath((os.path.join(script_path, 'auto_bill.cfg')))
+    AutoBill(config, script_path).download()
