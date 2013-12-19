@@ -1,0 +1,32 @@
+# Auto-Bill (Virgin Media E-Bill downloader)
+--------------------------------------------
+
+Welcome to the Auto-Bill Wiki/FAQ!
+
+## What is Auto-Bill?
+Auto-Bill is a collection of python and shell scripts using PhantomJS/GhostDriver to automate the download and printing of a Virgin Media electronic bill.
+
+### Pre-requisites
+
+* Python 2.7.2
+* Selenium 2.39.0
+* PhantomJS 1.9.2
+* Requests 0.13.5
+* Watchdog 0.6.0 (optional)
+
+## Getting started
+
+### Simple download
+1. Open auto-bill.cfg in an editor of your choice, supply your username and password credentials. Save the file.
+2. Run python auto_bill.py 
+
+### Perform an action once the file has been downloaded
+1. Open auto-bill.cfg in an editor of your choice, supply your username and password credentials. 
+2. Specify the shell script to run when a new file has been created using the file-script option.
+3. Save the file.
+4. Run ./auto_bill_monitor.py in a background shell instance.
+5. Run python auto_bill.py when needed.
+
+Needless to say, if you're inserting your credentials into a plaintext file be sure to set the permissions up correctly so that only you have access to the configuration file.
+
+Enjoy :)
