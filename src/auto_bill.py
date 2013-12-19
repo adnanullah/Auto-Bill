@@ -58,5 +58,5 @@ class AutoBill(object):
 if __name__ == '__main__':
     config = SafeConfigParser({'file-path': '.'})
     script_path = os.path.dirname(__file__)
-    config.read(os.path.abspath((os.path.join(script_path, 'auto_bill.cfg')))
+    config.read(os.path.abspath(os.path.join(script_path, 'auto_bill.cfg')))
     AutoBill(config, script_path).download()
